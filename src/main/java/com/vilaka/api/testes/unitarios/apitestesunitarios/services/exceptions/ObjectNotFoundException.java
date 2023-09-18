@@ -1,4 +1,4 @@
-package com.vilaka.api.testes.unitarios.apitestesunitarios.exceptions;
+package com.vilaka.api.testes.unitarios.apitestesunitarios.services.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException{
 

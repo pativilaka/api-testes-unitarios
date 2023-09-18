@@ -2,7 +2,8 @@ package com.vilaka.api.testes.unitarios.apitestesunitarios.services.impl;
 
 import com.vilaka.api.testes.unitarios.apitestesunitarios.domain.User;
 import com.vilaka.api.testes.unitarios.apitestesunitarios.domain.dto.UserDTO;
-import com.vilaka.api.testes.unitarios.apitestesunitarios.exceptions.ObjectNotFoundException;
+import com.vilaka.api.testes.unitarios.apitestesunitarios.services.exceptions.DataIntegratyViolationException;
+import com.vilaka.api.testes.unitarios.apitestesunitarios.services.exceptions.ObjectNotFoundException;
 import com.vilaka.api.testes.unitarios.apitestesunitarios.repositories.UserRepository;
 import com.vilaka.api.testes.unitarios.apitestesunitarios.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -33,8 +34,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDTO obj) {
+        findByEmail(obj);
         return repository.save(mapper.map(obj, User.class));
     }
 
+    private void findByEmail(UserDTO obj){
+        Optional<User> user = repository.findByEmail(obj.getEmail());
+        if(user.isPresent()){
+            throw new DataIntegratyViolationException("E-mail já cadastrado no sistema.");
+        }
+    }
 
 }
