@@ -1,6 +1,7 @@
 package com.vilaka.api.testes.unitarios.apitestesunitarios.services.impl;
 
 import com.vilaka.api.testes.unitarios.apitestesunitarios.domain.User;
+import com.vilaka.api.testes.unitarios.apitestesunitarios.exceptions.ObjectNotFoundException;
 import com.vilaka.api.testes.unitarios.apitestesunitarios.repositories.UserRepository;
 import com.vilaka.api.testes.unitarios.apitestesunitarios.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Integer id) {
         Optional<User> obj = repository.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(()-> new ObjectNotFoundException("Objeto não encontrado."));
     }
 }
